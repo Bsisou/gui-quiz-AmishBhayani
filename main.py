@@ -1,5 +1,7 @@
 from tkinter import *
 
+names_list = []
+
 class QuizStarter:
   def __init__(self, parent):
     background_color="OldLace"
@@ -20,12 +22,13 @@ class QuizStarter:
     self.entry_box.grid(row=2, pady=20)
 
     #continue button
-    self.continue_button = Button(self.quiz_frame, text="Continue", font=("Helvetica", "13", "bold"), bg="pink", command=self.name_collection)
+    self.continue_button = Button(self.quiz_frame, text="Continue", font=("Helvetica", "13", "bold"), bg="grey", command=self.name_collection)
     self.continue_button.grid(row=3, pady=20)
 
-  def name_collection(self)
-
-
+  def name_collection(self):
+    name=self.entry_box.get()
+    names_list.append(name)
+    self.quiz_frame.destroy()
 
 #******************Starting Point Of Program******************#
 if __name__ == "__main__":
