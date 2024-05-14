@@ -1,77 +1,41 @@
+# Import module 
 from tkinter import *
-import random
 
-names_list = []
-global questions_answers
-asked = []
+def show_main_page():
+    main_page_frame.pack()
+    quiz_page_frame.pack_forget()
 
-questions_answers = {
-1: ["What must you do when you see blue and red flashing lights behind you?", 'Speed up to get out of the way', 'Slow down and drive carefully',
-'Slow down and stop', 'Drive on as usual', 'Slow down and stop', 3],
-2: ["You may stop on a motorway only:", 'if there is an emergency', 'To let down or pick up passengers', 'to make a U-turn',
-'to stop and take a photo', 'if there is an emergency',1],
-3: ["When coming up to a pedestrian crossing without a raised traffic island, what must you do?", "Speed up before the pedestrians cross",
-'Stop and give way to pedestrians on any part of the crossing', "Sound the horn on your vehicle to warn the perestrians",
-"slow down to 30kmh", 'Stop and give way to pedestrians on any part of the crossing',2],
-4: ["Can you stop on a bus stop in a private motor vehicle?", 'Only between midnight and 6am', "Under no circumstances",
-"When dropping off passengers", 'Only if it is less than 5 minutes',"Under no circumstances", 2],
-5: ["What is the maximum speed you may drive if you have a 'space saver wheel' fitted? (km/h)", '70 km/h',
-"100 km/h so you do not hold up traffic", "80 km/h and if the wheel spacer displays a lower limit that applies",
-"90 km/h", "80 km/h and if the wheel spacer displays a lower limit that applies",3],
-6: ["When following another vehicle on a dusty road, you should:", 'Speed up to get passed', "Turn your vehicle's windscreen wipers on",
-"Stay back from the dust cloud", 'Turn your vehicles headlights on', "Stay back from the dust cloud", 3],
-7: ["What does the sign containing the letters 'LSZ' mean", 'Low safety zone', "Low stability zone", "Lone star zone", 'Limited speed zone',
-'Limited speed zone',4],
-8: ["What speed are you allowed to pass a school bus that has stopped to let students get on or off?", '20 km/h', "30 km/h", "70 km/h",
-'10 km/h', '20 km/h',1],
-9: ["What is the maximum distance a load may extend in front of a car?", '2 meters forward of the front edge of the front seat',
-"4 meters forward of the front edge of the front seat", "3 meters forward of the front edge of the front seat", '2.5 meters forward of the front edge of the back seat','3 meters forward of the front edge of the front seat',3],
-10: ["To avoid being blinded by the headlights of another vehicle coming towards you what should you do?", 'Look to the left of the road', "Look to the centre of the road",'Wear sunglasses that have sufficient strength', 'Look to the right side of the road', 'Look to the left of the road',1],
+def show_quiz_page():
+    main_page_frame.pack_forget()
+    quiz_page_frame.pack()
 
-}
+# Create object 
+root = Tk()
 
-def randomiser():
-  global qnum 
-  qnum = random.randint(1,10)
-  if qnum not in asked: 
-    asked.append(qnum)
-  elif qnum in asked:
-    randomiser()
+# Adjust size 
+root.geometry("1920x1080") 
 
-randomiser()
+# Main Page
+bg = PhotoImage(file="file.png") # Add image file
+main_page_frame = Frame(root)
+canvas1 = Canvas(main_page_frame, width=1920, height=1080)
+canvas1.pack(fill="both", expand=True)
+canvas1.create_image(0, 0, image=bg, anchor="nw")
+canvas1.create_text( 220, 550, text = "Welcome", font=('Cascadia Code', 50), fill='white') 
+canvas1.create_text( 520, 200, text = "Video Game", font=('Cascadia Code', 100, 'bold'), fill='white')
+canvas1.create_text(240, 350, text="Quiz", font=('Cascadia Code', 100, 'bold'), fill='white')
+start_button = Button(canvas1, text="Start", font=('Cascadia Code', 35), fg='white', bg='black', command=show_quiz_page)
+start_button_canvas = canvas1.create_window(1700, 725, anchor="nw", window=start_button)
+input_widget = Entry(root, font=('Cascadia Code', 40), bg='white', fg='black')
+canvas1.create_window(60, 600, window=input_widget, anchor="nw")
 
-class QuizStarter:
-  def __init__(self, parent):
-    background_color="OldLace"
-    #frame set up
-    self.quiz_frame=Frame(parent, bg=background_color, padx=100, pady=100)
-    self.quiz_frame.grid()
 
-    #Label widget for our heading
-    self.heading_label=Label(self.quiz_frame, text="Quiz", font=("Tw Cen MT", "18", "bold"), bg=background_color)
-    self.heading_label.grid(row=0)
+# Quiz Page
+quiz_page_frame = Frame(root)
+quiz_canvas = Canvas(quiz_page_frame, width=960, height=540)
+quiz_canvas.pack(fill="both", expand=True)
 
-    #Label widget for our user name prompt
-    self.user_label = Label (self.quiz_frame, text="Please enter your name below", font=("Tw Cen MT", "16"), bg=background_color)
-    self.user_label.grid(row=1, pady=20)
+show_main_page()  # Show main page by default
 
-    #user input
-    self.entry_box=Entry(self.quiz_frame)
-    self.entry_box.grid(row=2, pady=20)
-
-    #continue button
-    self.continue_button = Button(self.quiz_frame, text="Continue", font=("Helvetica", "13", "bold"), bg="grey", command=self.name_collection)
-    self.continue_button.grid(row=3, pady=20)
-
-  def name_collection(self):
-    name=self.entry_box.get()
-    names_list.append(name)
-    self.quiz_frame.destroy()
-
-#******************Starting Point Of Program******************#
-randomiser()
-if __name__ == "__main__":
-  root=Tk()
-  root.title("Quiz")
-  QuizStarter_object = QuizStarter(root)
-  root.mainloop()
+# Execute tkinter 
+root.mainloop() 
