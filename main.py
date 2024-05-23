@@ -23,9 +23,17 @@ def create_main_page_widgets(canvas):
 # Quiz Page
 def create_quiz_page_widgets(canvas):
     canvas.create_image(0, 0, image=bg1, anchor="nw")
-    canvas.create_text(480, 270, text="Quiz Page", font=('Cascadia Code', 30), fill='black')
-    back_button = Button(canvas, text="Back to Main Page", font=('Cascadia Code', 15), fg='white', bg='black', command=show_main_page)
-    canvas.create_window(850, 475, anchor="nw", window=back_button)
+    canvas.create_text(1000, 270, text="Quiz Page", font=('Cascadia Code', 80, 'bold'), fill='white')
+    back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=show_main_page)
+    canvas.create_window(1650, 900, anchor="nw", window=back_button)
+    option1 = Button(canvas, text = 'Option 1',  font=('Cascadia Code', 60), fg='black', bg='light gray', command = canvas.destroy)
+    option1.place(x=550, y=600)
+    option2 = Button(canvas, text = 'Option 2',  font=('Cascadia Code', 60), fg='black', bg='light gray', command = canvas.destroy)
+    option2.place(x=1000, y=600)
+    option3 = Button(canvas, text = 'Option 3',  font=('Cascadia Code', 60), fg='black', bg='light gray', command = canvas.destroy)
+    option3.place(x=550, y=750)
+    option4 = Button(canvas, text = 'Option 4',  font=('Cascadia Code', 60), fg='black', bg='light gray', command = canvas.destroy)
+    option4.place(x=1000, y=750)
 
 root = Tk() # Create object 
 root.geometry("1920x1080") # Adjust size 
