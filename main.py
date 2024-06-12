@@ -55,13 +55,19 @@ def load_question():
     question = questions[current_question_index]
     answers = quiz_data[question]
 
-    quiz_canvas.itemconfig(question_text_item, text=question)
+    #Check if question text can fit in one line
+    if len(question) <= 40:         
+        quiz_canvas.itemconfig(question_text_item, text=question)
+    else: 
+        #Split the line into two lines
+        first_line = question[:question.find(' ', len(question) // 2)]
+        second_line = question[question.find(' ', len(question) // 2):]
+        quiz_canvas.itemconfig(question_text_item, text=first_line + '\n' + second_line)
     
     option1.config(text=answers[0], command=lambda: check_answer(answers[0]))
     option2.config(text=answers[1], command=lambda: check_answer(answers[1]))
     option3.config(text=answers[2], command=lambda: check_answer(answers[2]))
     option4.config(text=answers[3], command=lambda: check_answer(answers[3]))
-
 
 def check_answer(selected_answer):
     global score
