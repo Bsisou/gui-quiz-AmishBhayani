@@ -12,6 +12,8 @@ def show_quiz_page():
 
 def end_quiz():
     quiz_page_frame.pack_forget()
+    result_frame.pack(side="left", fill="both", expand=True)
+    result_canvas.create_text(960, 540, text=f"Your final score is: {score}", font=('Cascadia Code', 80), fill='white')
     
 # Dictiory of questions and answers
 quiz_data = {
@@ -119,6 +121,11 @@ def create_quiz_page_widgets(canvas):
     score_label = Label(canvas, text=f"Score: {score}", font=('Cascadia Code', 45), fg='white', bg='black')
     score_label.place(x=1650, y=50)
 
+def create_result_page_widgets(canvas):
+    canvas.create_image(0, 0, image=bg1, anchor="nw")
+    canvas.create_text(960, 250, text="Result Page", font=('Cascadia Code', 80, 'bold'), fill='white')
+    back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg="white", bg="black", command=show_main_page)
+    canvas.create_window(100,900, anchor="nw", window=back_button)
 
 root = Tk() # Create object 
 root.geometry("1920x1080") # Adjust size 
@@ -128,20 +135,25 @@ bg1 = PhotoImage(file="quizpage.png") # Add image file
 
 main_page_frame = Frame(root)
 quiz_page_frame = Frame(root)
+result_frame = Frame(root)
 
 main_canvas = Canvas(main_page_frame, width=1920, height=1080)
 quiz_canvas = Canvas(quiz_page_frame, width=1920, height=1080)
+result_canvas = Canvas(result_frame, width=1920, height=1080)
 
 create_main_page_widgets(main_canvas)
 create_quiz_page_widgets(quiz_canvas)
+create_result_page_widgets(result_canvas)
 
 create_main_page_widgets(main_canvas)
 create_quiz_page_widgets(quiz_canvas)
+create_result_page_widgets(result_canvas)
 
 show_main_page()  # Show main page by default
 
 main_canvas.pack(fill="both", expand=True)
 quiz_canvas.pack(fill="both", expand=True)
+result_canvas.pack(fill="both", expand=True)
 
 # Execute tkinter 
 root.mainloop() 
