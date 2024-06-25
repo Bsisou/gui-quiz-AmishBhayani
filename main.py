@@ -116,10 +116,17 @@ class QuizApplication:
         canvas.create_text(400, 650, text="Enter Your Name:", font=('Cascadia Code', 50), fill='white')
         canvas.create_text(640, 250, text="Video Game", font=('Cascadia Code', 120, 'bold'), fill='white')
         canvas.create_text(300, 400, text="Quiz", font=('Cascadia Code', 120, 'bold'), fill='white')
-        start_button = Button(canvas, text="Start", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_quiz_page)
-        canvas.create_window(1650, 900, anchor="nw", window=start_button)
-        input_widget = Entry(self.root, font=('Cascadia Code', 50), bg='white', fg='black')
-        canvas.create_window(90, 700, window=input_widget, anchor="nw")
+
+        self.start_button = Button(canvas, text="Start", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_quiz_page)
+        self.start_button.config(state='disabled') #Initially disabled
+        canvas.create_window(1650, 900, window=self.start_button)
+
+        #Variable for entry
+        self.name_var = StringVar()
+        self.name_var.trace_add("write", self.validate_name) # Attach Validation
+
+        self.input_widget = Entry(self.root, font=('Cascadia Code', 50), bg='white', fg='black', textvariable=self.name_var)
+        canvas.create_window(90, 700, window=self.input_widget, anchor="nw")
 
     def create_quiz_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg1, anchor="nw")
@@ -145,6 +152,13 @@ class QuizApplication:
         canvas.create_text(960, 250, text="Result Page", font=('Cascadia Code', 80, 'bold'), fill='white')
         back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
         canvas.create_window(100, 900, anchor="nw", window=back_button)
+
+    def validate_name(self, *args):
+        name = self.name_var.get()
+        if name.isalnum() and name !="":
+            self.start_button.config(state='normal')
+        else:
+            self.start_button.config(state='disabled')
 
 # Initialize the main Tkinter window and run the application
 if __name__ == "__main__":
