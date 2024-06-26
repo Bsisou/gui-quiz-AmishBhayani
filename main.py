@@ -13,12 +13,14 @@ class QuizApplication:
         self.main_page_frame = Frame(self.root)
         self.quiz_page_frame = Frame(self.root)
         self.result_frame = Frame(self.root)
-
+        self.help_page_frame = Frame(self.root)
+        
         # Initialize canvases
         self.main_canvas = Canvas(self.main_page_frame, width=1920, height=1080)
         self.quiz_canvas = Canvas(self.quiz_page_frame, width=1920, height=1080)
         self.result_canvas = Canvas(self.result_frame, width=1920, height=1080)
-
+        self.help_canvas = Canvas(self.help_page_frame, width=1920, height=1080)
+        
         # Global variables
         self.quiz_data = {
             "In which year was the iconic game, 'Super Mario Bros', first released?": ["1983", "1985", "1987", "1990"],
@@ -54,11 +56,13 @@ class QuizApplication:
         self.create_main_page_widgets(self.main_canvas)
         self.create_quiz_page_widgets(self.quiz_canvas)
         self.create_result_page_widgets(self.result_canvas)
+        self.create_help_page_widgets(self.help_canvas)
 
         # Pack canvases
         self.main_canvas.pack(fill="both", expand=True)
         self.quiz_canvas.pack(fill="both", expand=True)
         self.result_canvas.pack(fill="both", expand=True)
+        self.help_canvas.pack(fill="both", expand=True)
 
         # Show main page by default
         self.show_main_page()
@@ -67,17 +71,27 @@ class QuizApplication:
         self.main_page_frame.pack(side="left", fill="both", expand=True)
         self.quiz_page_frame.pack_forget()
         self.result_frame.pack_forget()
+        self.help_page_frame.pack_forget()
 
     def show_quiz_page(self):
         self.main_page_frame.pack_forget()
         self.quiz_page_frame.pack(side="left", fill="both", expand=True)
         self.result_frame.pack_forget()
+        self.help_page_frame.pack_forget()
         self.load_question()
+
+    def show_help_page(self):
+        self.main_page_frame.pack_forget()
+        self.quiz_page_frame.pack_forget()
+        self.result_frame.pack_forget()
+        self.help_page_frame.pack(side="left", fill="both", expand=True)
 
     def end_quiz(self):
         self.quiz_page_frame.pack_forget()
         self.result_frame.pack(side="left", fill="both", expand=True)
+        self.help_page_frame.pack_forget()
         self.result_canvas.create_text(960, 540, text=f"Your final score is: {self.score}", font=('Cascadia Code', 80), fill='white')
+        
 
     def load_question(self):
         question = self.questions[self.current_question_index]
@@ -128,6 +142,10 @@ class QuizApplication:
         self.input_widget = Entry(self.root, font=('Cascadia Code', 50), bg='white', fg='black', textvariable=self.name_var)
         canvas.create_window(90, 700, window=self.input_widget, anchor="nw")
 
+        #Adding a help button
+        self.help_button = Button(canvas, text="Help", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_help_page)
+        canvas.create_window(1650, 100, window=self.help_button)
+
     def create_quiz_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg1, anchor="nw")
         back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
@@ -147,11 +165,32 @@ class QuizApplication:
         self.score_label = Label(canvas, text=f"Score: {self.score}", font=('Cascadia Code', 45), fg='white', bg='black')
         self.score_label.place(x=1650, y=50)
 
+        #Adding a help button
+        self.help_button = Button(canvas, text="Help", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_help_page)
+        canvas.create_window(100, 50, anchor="nw", window=self.help_button)
+        
     def create_result_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg1, anchor="nw")
         canvas.create_text(960, 250, text="Result Page", font=('Cascadia Code', 80, 'bold'), fill='white')
         back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
         canvas.create_window(100, 900, anchor="nw", window=back_button)
+    
+    def create_help_page_widgets(self, canvas):
+        canvas.create_image(0, 0, image=self.bg1, anchor="nw")
+        canvas.create_text(960, 150, text="Help Page", font=('Cascadia Code', 80, 'bold'), fill='white')
+
+        help_text = (
+            "Welcome to the Video Game Quiz!\n\n"
+            "1. Enter your name on the main page and press Start to begin the quiz.\n\n"
+            "2. Each question has four possible answers. Click on one to select it.\n\n"
+            "3. Your score will update automatically based on your answers.\n\n"
+            "4. Once you finish all questions, your final score will be displayed.\n\n"
+            "5. You can return to the main page anytime by pressing the back button"
+        )
+        canvas.create_text(960, 540, text=help_text, font=('Cascadia Code', 30), fill='white', width=1800)
+
+        back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
+        canvas.create_window(50, 50, anchor="nw", window=back_button)
 
     def validate_name(self, *args):
         name = self.name_var.get()
