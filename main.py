@@ -1,10 +1,16 @@
 from tkinter import *
+import pygame
 
 class QuizApplication:
     def __init__(self, root):
         self.root = root
         self.root.geometry("1920x1080")
 
+        #Load sounds *Will not work on replit*
+        pygame.mixer.init()
+        self.correct_sound = pygame.mixer.Sound("correct.mp3")
+        self.incorrect_sound = pygame.mixer.Sound("incorrect.mp3")
+        
         # Load images
         self.bg = PhotoImage(file="file.png")
         self.bg1 = PhotoImage(file="quizpage.png")
@@ -115,6 +121,9 @@ class QuizApplication:
         question = self.questions[self.current_question_index]
         if selected_answer == self.correct_answers[question]:
             self.score += 1
+            self.correct_sound.play()
+        else:
+            self.incorrect_sound.play()
         self.score_label.config(text=f"Score: {self.score}")
         self.next_question()
 
@@ -183,9 +192,10 @@ class QuizApplication:
             "Welcome to the Video Game Quiz!\n\n"
             "1. Enter your name on the main page and press Start to begin the quiz.\n\n"
             "2. Each question has four possible answers. Click on one to select it.\n\n"
-            "3. Your score will update automatically based on your answers.\n\n"
-            "4. Once you finish all questions, your final score will be displayed.\n\n"
-            "5. You can return to the main page anytime by pressing the back button"
+            "3. A buzzer will play if you get a question wrong.\n\n"
+            "4. Your score will update automatically based on your answers.\n\n"
+            "5. Once you finish all questions, your final score will be displayed.\n\n"
+            "6. You can return to the main page anytime by pressing the back button"
         )
         canvas.create_text(960, 540, text=help_text, font=('Cascadia Code', 30), fill='white', width=1800)
 
@@ -194,7 +204,7 @@ class QuizApplication:
 
     def validate_name(self, *args):
         name = self.name_var.get()
-        if name.isalnum() and name !="":
+        if name.isalpha() and len(name) >= 3: #Making sure that the user only enters letters and has a minimum of 3 characters
             self.start_button.config(state='normal')
         else:
             self.start_button.config(state='disabled')
