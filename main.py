@@ -93,16 +93,7 @@ class QuizApplication:
         self.main_page_frame.pack_forget()
         self.quiz_page_frame.pack_forget()
         self.result_frame.pack_forget()
-        self.show_previous_page
         self.help_page_frame.pack(side="left", fill="both", expand=True)
-
-    #Function to show previous page
-    def show_previous_page(self):
-        self.main_page_frame.pack_forget()
-        self.quiz_page_frame.pack_forget()
-        self.result_frame.pack_forget()
-        self.help_page_frame.pack_forget()
-        self.previous_page.pack(side="left", fill="both", expand=True)
 
     #Function to show result page
     def end_quiz(self):
@@ -173,10 +164,8 @@ class QuizApplication:
     #Function to create widgets for quiz page
     def create_quiz_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg1, anchor="nw")
-        back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_previous_page)
-        canvas.create_window(100, 900, anchor="nw", window=back_button)
         exit_button = Button(canvas, text="Exit", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
-        canvas.create_window(1650, 900, anchor="nw", window=exit_button)
+        canvas.create_window(100, 900, anchor="nw", window=exit_button)
 
         #Creating buttons for the quiz page
         self.option1 = Button(canvas, font=('Cascadia Code', 60), fg='black', bg='light gray', width=12)
