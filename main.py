@@ -139,6 +139,14 @@ class QuizApplication:
         else:
             self.end_quiz()
 
+    def reset_quiz(self): #Function to reset the quiz
+        self.score = 0 #Rest score to 0
+        self.current_question_index = 0 #Reset current question index
+        self.score_label.config(text=f"Score: {self.score}")
+        self.name_var.set("") #Clear the input section
+        self.start_button.config(state='disabled') #To disable the start button 
+        self.show_main_page()
+    
     #Function to create widgets for main page
     def create_main_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg, anchor="nw")
@@ -169,13 +177,13 @@ class QuizApplication:
 
         #Creating buttons for the quiz page
         self.option1 = Button(canvas, font=('Cascadia Code', 60), fg='black', bg='light gray', width=12)
-        self.option1.place(x=375, y=600)
+        self.option1.place(x=340, y=600)
         self.option2 = Button(canvas, font=('Cascadia Code', 60), fg='black', bg='light gray', width=12)
-        self.option2.place(x=1025, y=600)
+        self.option2.place(x=990, y=600)
         self.option3 = Button(canvas, font=('Cascadia Code', 60), fg='black', bg='light gray', width=12)
-        self.option3.place(x=375, y=750)
+        self.option3.place(x=340, y=750)
         self.option4 = Button(canvas, font=('Cascadia Code', 60), fg='black', bg='light gray', width=12)
-        self.option4.place(x=1025, y=750)
+        self.option4.place(x=990, y=750)
 
         self.question_text_item = canvas.create_text(1000, 350, text="", font=('Cascadia Code', 60), fill='white')
 
@@ -190,8 +198,8 @@ class QuizApplication:
     def create_result_page_widgets(self, canvas):
         canvas.create_image(0, 0, image=self.bg1, anchor="nw")
         canvas.create_text(960, 250, text="Result Page", font=('Cascadia Code', 80, 'bold'), fill='white')
-        back_button = Button(canvas, text="Back", font=('Cascadia Code', 45), fg='white', bg='black', command=self.show_main_page)
-        canvas.create_window(100, 900, anchor="nw", window=back_button)
+        exit_button = Button(canvas, text="Exit", font=('Cascadia Code', 45), fg='white', bg='black', command=self.reset_quiz)
+        canvas.create_window(100, 900, anchor="nw", window=exit_button)
 
     #Function to create widgets for help page
     def create_help_page_widgets(self, canvas):
@@ -217,7 +225,7 @@ class QuizApplication:
     #Function to validate name
     def validate_name(self, *args):
         name = self.name_var.get()
-        if name.isalpha() and len(name) >= 3: #Making sure that the user only enters letters and has a minimum of 3 characters
+        if name.isalpha() and len(name) >= 3 and len(name) <= 16: #Making sure that the user only enters letters and has a minimum of 3 characters and a maximum of 16 characters.
             self.start_button.config(state='normal')
         else:
             self.start_button.config(state='disabled')
