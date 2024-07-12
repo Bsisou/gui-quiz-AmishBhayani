@@ -96,12 +96,12 @@ class QuizApplication:
         self.result_frame.pack_forget()
         self.help_page_frame.pack(side="left", fill="both", expand=True)
 
-    #Function to show result page
+    #Function to end quiz
     def end_quiz(self):
         self.quiz_page_frame.pack_forget()
         self.result_frame.pack(side="left", fill="both", expand=True)
         self.help_page_frame.pack_forget()
-        self.result_canvas.create_text(960, 540, text=f"Your final score is: {self.score}", font=('Cascadia Code', 80), fill='white')
+        self.result_canvas.itemconfig(self.result_text_item, text=f"Your final score is: {self.score}", font=('Cascadia Code', 80), fill='white')
         
     #Function to load questions
     def load_question(self):
@@ -147,6 +147,7 @@ class QuizApplication:
         self.score_label.config(text=f"Score: {self.score}")
         self.name_var.set("") #Clear the input section
         self.start_button.config(state='disabled') #To disable the start button 
+        self.result_canvas.itemconfig(self.result_text_item, text="")
         self.show_main_page()
     
     #Function to create widgets for main page
@@ -202,6 +203,7 @@ class QuizApplication:
         canvas.create_text(960, 250, text="Result Page", font=('Cascadia Code', 80, 'bold'), fill='white')
         exit_button = Button(canvas, text="Exit", font=('Cascadia Code', 45), fg='white', bg='black', command=self.reset_quiz)
         canvas.create_window(100, 900, anchor="nw", window=exit_button)
+        self.result_text_item = canvas.create_text(960, 540, text="", font=('Cascadia Code', 80), fill ='white')
 
     #Function to create widgets for help page
     def create_help_page_widgets(self, canvas):
