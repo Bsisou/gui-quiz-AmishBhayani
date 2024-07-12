@@ -6,7 +6,8 @@ class QuizApplication:
         self.root = root
         self.root.geometry("1920x1080") #Setting the size of the window
 
-        #Load sounds *Will not work on replit*
+        #Load sounds 
+        #Will not work in replit
         pygame.mixer.init()
         self.correct_sound = pygame.mixer.Sound("correct.mp3") #Load correct question sound
         self.incorrect_sound = pygame.mixer.Sound("incorrect.mp3") #Load incorrect question sound
@@ -132,6 +133,7 @@ class QuizApplication:
         self.score_label.config(text=f"Score: {self.score}")
         self.next_question()
 
+    #Function to take user to next question
     def next_question(self):
         self.current_question_index += 1
         if self.current_question_index < len(self.questions):
@@ -210,12 +212,12 @@ class QuizApplication:
         help_text = (
             "Welcome to the Video Game Quiz!\n\n"
             "1. Enter your name on the main page and press Start to begin the quiz.\n\n"
-            "2. Only a minimum of 3 letters will be accepted.\n\n"
+            "2. Only an input of 3-16 letters will be accepted.\n\n"
             "3. Each question has four possible answers. Click on one to select it.\n\n"
-            "4. A buzzer will play if you get a question wrong.\n\n"
+            "4. Buzzer will play if answer is wrong and a ting if answer is correct.\n\n"
             "5. Your score will update automatically based on your answers.\n\n"
             "6. Once you finish all questions, your final score will be displayed.\n\n"
-            "7. You can return to the main page anytime by pressing the back button"
+            "7. You can return to the main page anytime by pressing the exit button."
         )
         canvas.create_text(960, 650, text=help_text, font=('Cascadia Code', 30), fill='white', width=1800)
 
